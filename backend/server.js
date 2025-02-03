@@ -4,6 +4,13 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const app = express();
 
+
+const medicos = [
+  { "id": 1, "nombre": "edgard maureira", "apellido": "toledo", "experiencia": "5 años", "especializacion": "Cardiología" },
+  { "id": 2, "nombre": "Ana", "apellido": "Gómez", "experiencia": "10 años", "especializacion": "Pediatría" },
+  { "id": 3, "nombre": "Carlos", "apellido": "Rodríguez", "experiencia": "7 años", "especializacion": "Neurología" }
+];
+
 dotenv.config();
 
 app.use(cors());
@@ -86,6 +93,14 @@ app.get('/datos-protegidos', validateApiKey, verifyToken, (req, res) => {
   ];
   res.json(datosSensibles);
 });
+
+
+  // Ruta protegida: Obtener todos los médicos (requiere API Key y JWT)
+  app.get('/medicos', validateApiKey, verifyToken,  (req, res) => {
+    res.json(medicos);
+});
+
+
 
 app.listen(process.env.PORT, () => {
   console.log(`Servidor corriendo en el puerto ${process.env.PORT}`);
